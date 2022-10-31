@@ -1,0 +1,18 @@
+{
+	"icons": [
+		{
+			"src": "https://lucasandradesilva.github.io/PastaGladiadores/img/logo.png",
+			"type": "image/png",
+			"sizes": "514x514"
+		}
+	],
+	"background_color": "#740605",
+	"display": "standalone",
+	"name": "Pasta Gladiadores",
+	"orientation": "any",
+	"prefer_related_applications": false,
+	"scope": "/",
+	"short_name": "Pasta Gladiadores",
+	"start_url": "/",
+	"theme_color": "#740605"
+}
