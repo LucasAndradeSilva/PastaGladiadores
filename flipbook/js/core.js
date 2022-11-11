@@ -5,7 +5,7 @@ var proporzioneViewport = x / y;
 
 	var larghezzaMinimaViewport = 0;
 			
-//se il viewport è più stretto di 640 lo imposto a 640
+//se il viewport ï¿½ piï¿½ stretto di 640 lo imposto a 640
 	if (x < larghezzaMinimaViewport) {
 		//alert('schermo troppo piccolo (' + x + ' x ' + y + ')');
 		y = (larghezzaMinimaViewport * y) / x;
@@ -32,7 +32,7 @@ var sfogliabileY = 870.00;
 //calcolo la proporzione dello sfogliabile
 var proporzioneSfogliabile = sfogliabileX / sfogliabileY;
 
-//se la proporzione dello sfogliabile è maggiore della proporzione del viewport tengo fissa l'altezza
+//se la proporzione dello sfogliabile ï¿½ maggiore della proporzione del viewport tengo fissa l'altezza
 if (proporzioneSfogliabile < proporzioneViewport){
 	altezzaEffettiva 	= y - margineY;
 	larghezzaEffettiva 	= (altezzaEffettiva * (proporzioneSfogliabile));
@@ -109,6 +109,7 @@ function applyConfig()
 
 //Load normal page
 function loadPage(page, pageElement) {
+    
     var img = $('<img />');
     img.mousedown(function (e) {
         e.preventDefault();
@@ -207,6 +208,7 @@ function loadApp()
                         currentPage = book.turn('page'),
                         pages = book.turn('pages');
 
+                $('#text-pagina').text('PÃ¡gina '+page)
                 Hash.go('page/' + page).update();
 
                 disableControls(page);
@@ -502,7 +504,7 @@ $(".controlzoom").hide();
 
             if (window._thumbPreview)
                 _thumbPreview.removeClass('show');
-
+            
             $('.magazine').turn('page', Math.max(1, $(this).slider('value') * 2 - 2));
 
         }
