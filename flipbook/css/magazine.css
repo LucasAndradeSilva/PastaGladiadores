@@ -574,6 +574,7 @@ body{
     display: inline-block;
     margin-left: 0.2em;
     margin-right: 0em;
+	margin-bottom: -6px;
         background-repeat: no-repeat
     
 }
@@ -590,5 +591,6 @@ body{
     display: inline-block;
     margin-left: 0.2em;
     margin-right: 0em;
+	margin-bottom: -6px;
 	    background-repeat: no-repeat
 }

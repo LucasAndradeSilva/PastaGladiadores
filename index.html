@@ -116,10 +116,11 @@
       right: 35%;
     }
 
-    #text-link{
-      position: absolute;
-      bottom: 82%;
-      right: 38%;
+    #text-link img{
+      background-image: url(/flipbook/pics/internet.png);
+      width: 1.5em;      
+      margin-top: -13px;
+      background-repeat: no-repeat;
     }
   </style>
 
@@ -188,7 +189,7 @@
 
     <div class="controls-pdf">      
 
-      <div class="controlzoom" style="display:none">
+      <div class="controlzoom" style="display:none">        
         <a href="#" id="zoomin" style="font-size:16px; color:#808080; text-decoration: none; font-weight:bold"><img
             src="flipbook/pics/zoomin.png" /></a>
         <a href="#" id="zoomout" style="font-size:16px; color:#808080; text-decoration: none; font-weight:bold"><img
@@ -201,14 +202,17 @@
 
       <div class="zoom-icon zoom-icon-in"></div>
 
+      <a href="#!" id="text-link" target="_blank">
+        <img src="flipbook/pics/internet.png"/>
+      </a>
       <input type="image" class="fs" src="flipbook/pics/fs.png" onclick="openFullscreen();" />
       <a href="#" id="prev"></a>
       <a href="#" id="next"></a>
     </div>    
 
-    <h5 id="text-pagina">Página #</h5>
-    <a id="text-link" class="text-center" href="#!" target="_blank">Ver Cifra</a>
-    
+    <h5 id="text-pagina">
+      Página #
+    </h5>    
 
     <div class="magazine-viewport" id="flipfull">
 
@@ -283,6 +287,8 @@
 
 
 <script>
+  var banco;
+
   $('#btn-buscar').click(async function () {
     var nomeMusica = $('#nome-musica').val();
     var numeroMusica = $('#numero-musica').val();
@@ -291,9 +297,8 @@
       alert('Preencha um dos campos para continuar');
       return;
     }
-
-    var banco = await getAppSettings();
-    var resultado = [];    
+    
+    var resultado = 0;    
 
     $('.div-resultado .resultado').empty();
 
@@ -311,11 +316,14 @@
             $('.modal-backdrop').hide();
             $('.div-resultado .resultado').empty();
             $('#text-pagina').text('Página '+ x.Pagina)
+            $('#text-link').attr('href', x.Link);    
           });
 
           $('.div-resultado').show();
           $('.div-resultado .resultado').append(href);
           $('#nome-musica').val('');
+
+          resultado++;
         }
       });      
     }
@@ -332,16 +340,28 @@
             $('.modal-backdrop').hide();
             $('.div-resultado .resultado').empty();
             $('#text-pagina').text('Página '+x.Pagina)
+            $('#text-link').attr('href', x.Link);    
           });
 
           $('.div-resultado').show();
           $('.div-resultado .resultado').append(href);
           $('#numero-musica').val('');
+
+          resultado++;
         }
       });
   }    
+      
+    if (resultado <= 0)
+    {
+      var h5 = $('<h5/>');
+      h5.text('Nenhuma música encontrada!');
+      $('.div-resultado').show();
+      $('.div-resultado .resultado').append(h5);      
 
-    $('.div-resultado .resultado').append(resultado);
+      $('#nome-musica').val('');
+      $('#numero-musica').val('');      
+    }  
   });
 
   async function getAppSettings () {
@@ -353,7 +373,14 @@
   $('#next').click(function () {
     var page = parseFloat(window.location.hash.split('/')[1]) + 1;    
     page = !page ? 2 : page; 
+    
     $('#text-pagina').text('Página '+page);
+
+    var musica = $(banco.Musicas).filter((i,x) => {      
+      return x.Pagina == page;
+    })[0];    
+
+    $('#text-link').attr('href', musica.Link);    
   });  
 
   $('#prev').click(function () {
@@ -361,13 +388,28 @@
     page = page <= 0 ? 1 : page;
     page = !page ? 1 : page; 
     $('#text-pagina').text('Página '+page);
+
+    var musica = $(banco.Musicas).filter((i,x) => {      
+      return x.Pagina == page;
+    })[0]; 
+
+    $('#text-link').attr('href', musica.Link);
   });  
 
   $(document).ready(function () {
     var page = parseFloat(window.location.hash.split('/')[1]);
     page = !page ? 1 : page; 
-    $('#text-pagina').text('Página '+page);
+    $('#text-pagina').text('Página '+page);    
+
+    getAppSettings().then((result) => {
+      banco = result;
+
+      var musica = $(banco.Musicas).first((x,i) => x.Pagina == page)[0];
+
+      $('#text-link').attr('href', musica.Link);
+    });   
   });
+
 </script>
 
 </body>
