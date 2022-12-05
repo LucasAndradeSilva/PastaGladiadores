@@ -201,14 +201,15 @@ function loadApp()
         // Events
         when: {
             turning: function (event, page, view)
-            {
+            {                                  
+                var book = $(this), currentPage = book.turn('page'), pages = book.turn('pages');                
+                var musica = $(banco.Musicas).filter((i,x) => {      
+                    return x.Pagina == page;
+                  })[0]; 
             
-                      
-                var book = $(this),
-                        currentPage = book.turn('page'),
-                        pages = book.turn('pages');
-
+                $('#text-link').attr('href', musica.Link);                
                 $('#text-pagina').text('Página '+page)
+                
                 Hash.go('page/' + page).update();
 
                 disableControls(page);
